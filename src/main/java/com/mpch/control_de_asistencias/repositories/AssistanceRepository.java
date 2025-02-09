@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface AssistanceRepository extends JpaRepository<Assistance, UUID> {
 
     @Query("SELECT a FROM Assistance a WHERE a.intern.idIntern = :idIntern AND a.checkOut IS NULL")
-    Optional<Assistance> findActiveAssistanceByIntern(@Param("idIntern") String idIntern);
+    Optional<Assistance> findActiveAssistanceByIntern(@Param("idIntern") Long idIntern);
 
     @Query("SELECT COUNT(a) > 0 FROM Assistance a WHERE a.intern.idIntern = :idIntern " +
             "AND ((:checkIn BETWEEN a.checkIn AND a.checkOut) OR (:checkOut BETWEEN a.checkIn AND a.checkOut))")
@@ -29,7 +29,7 @@ public interface AssistanceRepository extends JpaRepository<Assistance, UUID> {
 
     @Query("SELECT SUM(a.hoursWorked) FROM Assistance a WHERE a.intern.idIntern = :idIntern " +
             "AND a.checkIn BETWEEN :start AND :end")
-    double sumHoursWorkedByInternAndDate(@Param("idIntern") String idIntern,
+    double sumHoursWorkedByInternAndDate(@Param("idIntern") Long idIntern,
                                          @Param("start") LocalDateTime start,
                                          @Param("end") LocalDateTime end);
 
